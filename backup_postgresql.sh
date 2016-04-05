@@ -24,7 +24,17 @@ fi
 trap "rm -f ${LOCKFILE}; exit" INT TERM EXIT
 echo $$ > ${LOCKFILE}
 
-su postgres -c pg_dumpall --host=${POSTGRES_HOST} --username=${POSTGRES_USER} --password=${POSTGRES_PASSWORD} --dbname=${POSTGRES_DB} --port=${POSTGRES_PORT} | gzip -9 > $BACKUP_NAME
+echo "${POSTGRES_HOST}:${POSTGRES_PORT}:${POSTGRES_DB}:${POSTGRES_USER}:${POSTGRES_PASSWORD}" > /root/.pgpass
+chmod 600 /root/.pgpass
+
+pg_dump -C -h ${POSTGRES_HOST} -p ${POSTGRES_PORT} -U ${POSTGRES_USER} ${POSTGRES_DB} | gzip -9 > ${BACKUP_NAME}
+if [ $? -eq 0 ]
+then
+  echo "Backup successful created"
+else
+	rm $BACKUP_NAME
+  echo "Backup failed" >&2
+fi
 
 # remove lock
 echo "remove lock"

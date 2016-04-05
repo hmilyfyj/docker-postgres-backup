@@ -1,11 +1,11 @@
 FROM postgres
 MAINTAINER Benjamin Borbe <bborbe@rocketnews.de>
 
+ENV POSTGRES_HOST localhost
+ENV POSTGRES_PORT 5432
+ENV POSTGRES_DB postgres
 ENV POSTGRES_USER postgres
 ENV POSTGRES_PASSWORD S3CR3T
-ENV POSTGRES_DB postgres
-ENV POSTGRES_PORT 5432
-ENV POSTGRES_HOST localhost
 
 RUN set -x \
     && apt-get update --quiet \
@@ -14,7 +14,7 @@ RUN set -x \
 
 ADD cron_postgres /etc/cron.d/postgres
 ADD filter_new.pl /usr/local/bin/
-ADD postgres_dump.sh /usr/local/bin/
+ADD backup_postgresql.sh /usr/local/bin/
 
 VOLUME ["/backup"]
 
