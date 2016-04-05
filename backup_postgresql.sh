@@ -1,7 +1,9 @@
-#!/bin/sh
+#!/bin/bash
+
+set -e
 
 LOCKFILE=/var/run/backup_postgresql.pid
-BACKUP_NAME=/backup/postgres_`date '+%Y%m%d'`.sql.gz
+BACKUP_NAME=/backup/postgres_`date '+%Y%m%d'`.dump
 
 #
 # script below
@@ -27,7 +29,7 @@ echo $$ > ${LOCKFILE}
 echo "${POSTGRES_HOST}:${POSTGRES_PORT}:${POSTGRES_DB}:${POSTGRES_USER}:${POSTGRES_PASSWORD}" > /root/.pgpass
 chmod 600 /root/.pgpass
 
-pg_dump -C -h ${POSTGRES_HOST} -p ${POSTGRES_PORT} -U ${POSTGRES_USER} ${POSTGRES_DB} | gzip -9 > ${BACKUP_NAME}
+pg_dump -h ${POSTGRES_HOST} -p ${POSTGRES_PORT} -U ${POSTGRES_USER} -F c -b -v -f ${BACKUP_NAME} ${POSTGRES_DB}
 if [ $? -eq 0 ]
 then
   echo "Backup successful created"
