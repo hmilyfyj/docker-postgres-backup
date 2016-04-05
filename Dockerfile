@@ -8,9 +8,11 @@ ENV POSTGRES_USER postgres
 ENV POSTGRES_PASSWORD S3CR3T
 
 RUN set -x \
-    && apt-get update --quiet \
-    && apt-get install --quiet --yes --no-install-recommends libdatetime-perl \
-    && apt-get clean
+	&& apt-get update --quiet \
+	&& apt-get upgrade --quiet --yes \
+	&& apt-get install --quiet --yes --no-install-recommends libdatetime-perl \
+	&& apt-get autoremove --yes \
+	&& apt-get clean
 
 ADD cron_postgres /etc/cron.d/postgres
 ADD filter_new.pl /usr/local/bin/
