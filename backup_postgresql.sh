@@ -29,14 +29,8 @@ echo $$ > ${LOCKFILE}
 echo "${POSTGRES_HOST}:${POSTGRES_PORT}:${POSTGRES_DB}:${POSTGRES_USER}:${POSTGRES_PASSWORD}" > ~/.pgpass
 chmod 600 ~/.pgpass
 
+trap "rm -f ${BACKUP_NAME}; echo 'backup failed'; exit" ERR
 pg_dump -Z 9 -h ${POSTGRES_HOST} -p ${POSTGRES_PORT} -U ${POSTGRES_USER} -F c -b -v -f ${BACKUP_NAME} ${POSTGRES_DB}
-if [ $? -eq 0 ]
-then
-  echo "Backup successful created"
-else
-	rm $BACKUP_NAME
-  echo "Backup failed" >&2
-fi
 
 # remove lock
 echo "remove lock"
