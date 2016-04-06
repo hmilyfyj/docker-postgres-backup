@@ -19,7 +19,7 @@ build:
 	rm postgres_backup_cron
 
 run:
-	docker run bborbe/postgres-backup
+	docker run -e LOGLEVEL=debug bborbe/postgres-backup
 
 shell:
 	docker run -i -t bborbe/postgres-backup:latest /bin/bash
