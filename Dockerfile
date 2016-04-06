@@ -14,15 +14,17 @@ RUN set -x \
 	&& apt-get autoremove --yes \
 	&& apt-get clean
 
-ADD cron_postgres /etc/cron.d/postgres
 ADD filter_new.pl /usr/local/bin/
 ADD backup_postgresql.sh /usr/local/bin/
+ADD postgres-cron /etc/cron.d/postgres-cron
+ADD hello-cron /etc/cron.d/hello-cron
 
 VOLUME ["/backup"]
 
 ADD entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
+RUN chmod 644 /etc/cron.d/*
 RUN touch /var/log/cron.log
 
 CMD ["/bin/sh","-c","/usr/sbin/cron -L 15 && tail -F /var/log/cron.log"]

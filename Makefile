@@ -6,6 +6,9 @@ clean:
 build:
 	docker build --no-cache --rm=true -t bborbe/postgres-backup .
 
+buildcached:
+	docker build --rm=true -t bborbe/postgres-backup .
+
 run:
 	docker run -v /tmp:/backup bborbe/postgres-backup:latest
 
