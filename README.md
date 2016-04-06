@@ -1,4 +1,6 @@
-# Postgres Backup Dockerfile
+# Password Random Generator Dockerfile
+
+Password Random Generator
 
 ## Copyright and license
 

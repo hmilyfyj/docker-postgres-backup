@@ -1,0 +1,27 @@
+FROM postgres
+MAINTAINER Benjamin Borbe <bborbe@rocketnews.de>
+
+ENV LOGLEVEL info
+ENV HOST localhost
+ENV PORT 5432
+ENV DATABASE postgres
+ENV USERNAME postgres
+ENV PASSWORD S3CR3T
+ENV TARGETDIR /backup
+ENV WAIT 1h
+ENV ONE_TIME false
+ENV LOCK /var/run/postgres_backup_cron.lock
+
+RUN set -x \
+	&& apt-get update --quiet \
+	&& apt-get upgrade --quiet --yes \
+	&& apt-get autoremove --yes \
+	&& apt-get clean
+
+VOLUME ["/backup"]
+
+ADD entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+ADD postgres_backup_cron /
+CMD ["/postgres_backup_cron"]
