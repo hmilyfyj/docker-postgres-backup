@@ -1,3 +1,4 @@
 
-15 4 * * * root sh /usr/local/bin/backup_postgresql.sh >/var/log/cron.log 2>&1
-15 5 * * * root ls -1 /backup/postgres_*.dump | perl /usr/local/bin/filter_new.pl | xargs rm -f >/var/log/cron.log 2>&1
+* * * * * root echo "hello world" >>/var/log/cron.log 2>&1
+15 4 * * * root sh /usr/local/bin/backup_postgresql.sh >>/var/log/cron.log 2>&1
+15 5 * * * root ls -1 /backup/postgres_*.dump | perl /usr/local/bin/filter_new.pl | xargs rm -f >>/var/log/cron.log 2>&1
