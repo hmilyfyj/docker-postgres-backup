@@ -23,4 +23,6 @@ VOLUME ["/backup"]
 ADD entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
-CMD ["/usr/sbin/cron","-f","-L","15"]
+RUN touch /var/log/cron.log
+
+CMD ["/bin/sh","-c","/usr/sbin/cron -L 15 && tail -F /var/log/cron.log"]
