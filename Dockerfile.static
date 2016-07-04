@@ -13,10 +13,10 @@ ENV ONE_TIME false
 ENV LOCK /var/run/postgres_backup_cron.lock
 
 RUN set -x \
-	&& apt-get update --quiet \
-	&& apt-get upgrade --quiet --yes \
-	&& apt-get autoremove --yes \
-	&& apt-get clean
+	&& DEBIAN_FRONTEND=noninteractive apt-get update --quiet \
+	&& DEBIAN_FRONTEND=noninteractive apt-get upgrade --quiet --yes \
+	&& DEBIAN_FRONTEND=noninteractive apt-get autoremove --yes \
+	&& DEBIAN_FRONTEND=noninteractive apt-get clean
 
 VOLUME ["/backup"]
 
