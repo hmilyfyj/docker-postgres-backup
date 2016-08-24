@@ -5,7 +5,10 @@ clean:
 	docker rmi bborbe/postgres-backup
 
 setup:
-	go get github.com/bborbe/postgres_backup_cron/bin/postgres_backup_cron
+	mkdir -p ./go/src/github.com/bborbe/postgres_backup_cron
+	git clone https://github.com/bborbe/postgres_backup_cron.git ./go/src/github.com/bborbe/postgres_backup_cron
+	go get -u github.com/Masterminds/glide
+	cd ./go/src/github.com/bborbe/postgres_backup_cron && glide install
 
 buildgo:
 	CGO_ENABLED=0 GOOS=linux go build -ldflags "-s" -a -installsuffix cgo -o postgres_backup_cron ./go/src/github.com/bborbe/postgres_backup_cron/bin/postgres_backup_cron
