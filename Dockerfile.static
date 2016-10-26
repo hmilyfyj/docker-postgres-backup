@@ -20,8 +20,5 @@ RUN set -x \
 
 VOLUME ["/backup"]
 
-ADD entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-
 ADD postgres_backup_cron /
 ENTRYPOINT ["/postgres_backup_cron"]
