@@ -20,5 +20,5 @@ RUN set -x \
 
 VOLUME ["/backup"]
 
-ADD postgres_backup_cron /
+COPY postgres_backup_cron /
 ENTRYPOINT ["/postgres_backup_cron"]
