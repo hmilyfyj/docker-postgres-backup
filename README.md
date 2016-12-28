@@ -1,4 +1,4 @@
-# Postgresql Backup Dockerfile
+# Postgresql Backup
 
 ## Copyright and license
 
