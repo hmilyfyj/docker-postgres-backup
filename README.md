@@ -1,5 +1,60 @@
 # Postgresql Backup
 
+## Start Postgres
+
+```
+docker run \
+--name db \
+--env POSTGRES_DB=mydb \
+--env POSTGRES_USER=myuser \
+--env POSTGRES_PASSWORD=mypassword \
+--env PGDATA=/var/lib/postgresql/data/pgdata \
+postgres:9.6.1-alpine
+```
+
+## Backup once
+
+```
+docker run \
+--env HOST=db \
+--env PORT=5432 \
+--env DATABASE=mydb \
+--env USERNAME=myuser \
+--env PASSWORD=mypassword \
+--env ONE_TIME=true \
+--env LOCK=/postgres_backup_cron.lock \
+--env TARGETDIR=/backup \
+--volume /tmp:/backup \
+--link db:db \
+bborbe/postgres-backup:latest \
+-logtostderr \
+-v=1
+```
+
+`ls /tmp/postgres_mydb_*.dump`
+
+## Backup every hour
+
+```
+docker run \
+--env HOST=db \
+--env PORT=5432 \
+--env DATABASE=mydb \
+--env USERNAME=myuser \
+--env PASSWORD=mypassword \
+--env WAIT=1h \
+--env ONE_TIME=false \
+--env LOCK=/postgres_backup_cron.lock \
+--env TARGETDIR=/backup \
+--volume /tmp:/backup \
+--link db:db \
+bborbe/postgres-backup:latest \
+-logtostderr \
+-v=1
+```
+
+`ls /tmp/postgres_mydb_*.dump`
+
 ## Copyright and license
 
     Copyright (c) 2016, Benjamin Borbe <bborbe@rocketnews.de>
