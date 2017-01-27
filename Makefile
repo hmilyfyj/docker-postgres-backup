@@ -1,5 +1,6 @@
 VERSION ?= latest
 REGISTRY ?= docker.io
+BRANCH ?= master
 
 default: build
 
@@ -8,7 +9,7 @@ clean:
 	docker rmi $(REGISTRY)/bborbe/postgres-backup:$(VERSION)
 
 checkout:
-	git -C sources pull || git clone https://github.com/bborbe/postgres_backup_cron.git sources
+	git -C sources pull || git clone -b $(BRANCH) --single-branch --depth 1 https://github.com/bborbe/postgres_backup_cron.git sources
 
 setup:
 	go get -u github.com/Masterminds/glide
